@@ -1,0 +1,22 @@
+import asyncio
+
+from web_search_agent.learn_multi_step_agent.agents.tool_call_agent import ToolCallingAgent
+
+
+async def main():
+    agent = ToolCallingAgent()
+    try:
+        prompt = input("Enter your prompt: ")
+        if not prompt.strip():
+            print("Empty prompt provided.")
+            return
+
+        print("Processing your request...")
+        await agent.run(prompt)
+        print("Request processing completed.")
+    except KeyboardInterrupt:
+        print("Operation interrupted.")
+
+if __name__ == "__main__":
+    # asyncio.run(main())
+    asyncio.run(main())
