@@ -13,7 +13,7 @@ env_path = project_root / 'config' / '.env'
 load_dotenv(dotenv_path=env_path)
 
 
-class GoogleSearchTool(BaseTool):
+class Search360Tool(BaseTool):
     name: str = "web_search"
     description: str = """Performs a 360 web search for your query then returns a string of the top search results."""
     parameters: dict = {
@@ -50,5 +50,5 @@ class GoogleSearchTool(BaseTool):
         return "## Search Results\n" + "\n\n".join(res_list)
 
 if __name__ == "__main__":
-    tool = GoogleSearchTool()
+    tool = Search360Tool()
     print(asyncio.run(tool.execute("日本的天气")))

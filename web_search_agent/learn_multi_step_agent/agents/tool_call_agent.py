@@ -6,6 +6,7 @@ from web_search_agent.learn_multi_step_agent.memory.memory import ActionStep, To
 from web_search_agent.learn_multi_step_agent.prompts.prompt import TOOLCALLPROMPT, TOOLCALLPROMPT_EN
 from web_search_agent.learn_multi_step_agent.tools.final_answer import FinalAnswerTool
 from web_search_agent.learn_multi_step_agent.tools.google_search_serpapi import GoogleSearchTool
+from web_search_agent.learn_multi_step_agent.tools.search_360 import Search360Tool
 from web_search_agent.learn_multi_step_agent.tools.tool_collection import ToolCollection
 from web_search_agent.tools.create_chat_completion import CreateChatCompletion
 from web_search_agent.tools.terminate import Terminate
@@ -18,7 +19,7 @@ class ToolCallingAgent(ReactAgent):
         # self.system_prompt = TOOLCALLPROMPT
         self.system_prompt = TOOLCALLPROMPT_EN
         self.available_tools: ToolCollection = ToolCollection(
-            GoogleSearchTool(), Terminate()
+            Search360Tool(), Terminate(), FinalAnswerTool()
         )
         super().__init__()
 
