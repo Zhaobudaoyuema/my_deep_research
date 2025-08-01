@@ -103,12 +103,13 @@ class OpenAILLM:
     async def generate(self,
                        messages: list,
                        tools: Optional[List[dict]] = None,
-                       tool_choice: str | dict | None = "required", ):
+                       tool_choice: str | dict | None = "none", ):
         params = {
             "model": self.model,
             "messages": messages,
             "tools": tools,
             "tool_choice": tool_choice,
+            "extra_body":{"chat_template_kwargs": {"enable_thinking": False}}
         }
 
         response = await self.client.chat.completions.create(**params)

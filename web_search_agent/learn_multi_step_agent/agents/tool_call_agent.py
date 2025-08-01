@@ -1,4 +1,5 @@
 import json
+from abc import abstractmethod
 
 from web_search_agent.learn_multi_step_agent.agents.react_agent import ReactAgent
 from web_search_agent.learn_multi_step_agent.llm.openai_llm import ChatMessage
@@ -40,9 +41,10 @@ class ToolCallingAgent(ReactAgent):
         chat_message: ChatMessage = await self.model.generate(
             input_messages,
             tools=self.available_tools.to_params(),
+            tool_choice='required'
         )
         print(
-            f"tool_call 步骤：{memory_step.step_number}, 结果：{chat_message.content}, tools: {chat_message.tool_calls}")
+            f"tool_call 步骤：{memory_step.step_number}, 结果：{chat_message.content}")
 
         if not chat_message.tool_calls:
             return False
@@ -56,6 +58,11 @@ class ToolCallingAgent(ReactAgent):
         memory_step.tool_calls = tools
 
         return True
+
+    @abstractmethod
+    async def merge_args(self, command):
+        pass
+
     async def act(self, memory_step: ActionStep):
         if not memory_step.tool_calls:
             # Return last message content if no tool calls
@@ -67,8 +74,10 @@ class ToolCallingAgent(ReactAgent):
             if name not in self.available_tools.tool_map:
                 return f"Error: Unknown tool '{name}'"
 
+
+
             args = json.loads(command.arguments or "{}")
-            print(f"🔧 Activating tool: '{name}'...")
+            print(f"🔧 Activating tool: '{name}'... args: {args}")
             result = await self.available_tools.execute(name=name, tool_input=args)
 
             if name in ['terminate', 'final_answer']:
