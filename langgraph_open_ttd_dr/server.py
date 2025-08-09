@@ -17,8 +17,8 @@ async def main():
     thread = {"configurable": {"thread_id": str(uuid.uuid4()),
                                }}
 
-    topic = "北京小米汽车最近汽车事故舆情分析"
-    async for event in graph.astream({"query": topic, "max_search_depth": 5}, thread):
+    topic = "2025年黄金价格趋势"
+    async for event in graph.astream({"query": topic, "max_search_depth": 10}, thread):
         print("\n-------------- 执行完一个节点 -------------\n")
         # if '__interrupt__' in event:
         #     interrupt_value = event['__interrupt__'][0].value

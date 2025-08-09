@@ -15,3 +15,4 @@ class State(TypedDict):
     cur_search_depth:int
     sub_queries: list
     overall_evaluation: str
+    final_report:str

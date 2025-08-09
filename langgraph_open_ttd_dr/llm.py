@@ -15,7 +15,7 @@ async def llm_request(
     schema: Optional[Union[Dict, Type[BaseModel]]] = None,
     include_raw: bool = False,
     stream: bool = True,
-    model: str = "alibaba/qwen-plus-latest"
+    model: str = "volcengine/doubao-seed-1-6-250615-disable-thinking"
 ):
     """
     通用 LLM 请求逻辑：

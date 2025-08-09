@@ -1,4 +1,7 @@
 import asyncio
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from langchain.chat_models import init_chat_model
 from langgraph.constants import START, END
@@ -6,7 +9,7 @@ from langgraph.graph import StateGraph
 
 from langgraph_open_ttd_dr.llm import llm_request
 from langgraph_open_ttd_dr.prompts import plan_prompt, draft_generation_prompt, gap_analysis_prompt, denoising_prompt, \
-    need_draft_denoising_prompt
+    need_draft_denoising_prompt, final_answer_prompt
 from langgraph_open_ttd_dr.schema import Queries, EvaluationSummary
 from langgraph_open_ttd_dr.state import State
 from web_search_agent.learn_multi_step_agent.tools.search_360 import Search360Tool
@@ -122,7 +125,12 @@ async def final_answer(state: State):
     :return:
     """
     draft = state['draft']
-    return {"final_report": draft}
+    query = state['query']
+    research_plan = state['research_plan']
+    prompt = final_answer_prompt.format(topic=query, draft=draft, research_plan=research_plan, time=get_china_time())
+    messages = [{"role": "user", "content": prompt}]
+    _, result = await llm_request(messages)
+    return {"final_report": result}
 
 builder = StateGraph(State)
 builder.add_node("generate_report_plan", generate_report_plan)
