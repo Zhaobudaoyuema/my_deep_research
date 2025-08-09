@@ -42,6 +42,7 @@ async def llm_request(
             tool_choice={"type": "function", "function": {"name": tool["function"]["name"]}},
             extra_body={"enable_thinking": True, "thinking_budget": 50},
             stream=stream,
+            timeout=3600
         )
         parsed_args = {}
         if not stream:

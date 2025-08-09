@@ -30,7 +30,7 @@ class Search360Tool(BaseTool):
     async def execute(self, query: str) -> str:
         params = {
             "model": 'allso-n',
-            "count": 30,
+            "count": 20,
             "sub_query": query,
             "query": "query",
             "request_id": "1"
@@ -47,7 +47,7 @@ class Search360Tool(BaseTool):
             if i.get('rank') < 10:
                 continue
             res_list.append(f"标题：{i.get("title")}\n发布时间：{i.get('date')}\n正文：{i.get("summary_large")}")
-        return "## Search Results\n" + "\n\n".join(res_list)
+        return res_list
 
 if __name__ == "__main__":
     tool = Search360Tool()

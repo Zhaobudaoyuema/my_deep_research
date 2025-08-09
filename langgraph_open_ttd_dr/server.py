@@ -18,8 +18,8 @@ async def main():
                                }}
 
     topic = "北京小米汽车最近汽车事故舆情分析"
-    async for event in graph.astream({"query": topic, }, thread):
-        print(event)
+    async for event in graph.astream({"query": topic, "max_search_depth": 5}, thread):
+        print("\n-------------- 执行完一个节点 -------------\n")
         # if '__interrupt__' in event:
         #     interrupt_value = event['__interrupt__'][0].value
         #     Markdown(interrupt_value)
